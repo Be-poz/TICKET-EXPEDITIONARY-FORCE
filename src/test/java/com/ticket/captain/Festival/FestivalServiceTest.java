@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -27,7 +28,6 @@ public class FestivalServiceTest {
 
     @BeforeAll
     void setUp() {
-
 
     }
 
@@ -49,5 +49,22 @@ public class FestivalServiceTest {
         assertThat(festival.getStartDate(), is(notNullValue()));
         assertThat(festival.getEndDate(), is(notNullValue()));
         logger.info("Festival create {}", festival);
+    }
+
+    @Test
+    @Order(2)
+    void festivalInfo() {
+        String name = randomAlphabetic(10);
+        String Thumbnail = randomAlphabetic(10);
+        String content = randomAlphabetic(40);
+        int winners = 0;
+        LocalDateTime startDate = LocalDateTime.now();
+        LocalDateTime endDate = LocalDateTime.now();
+        Festival newFestival = festivalService.generate(new Festival(name, content, winners, Thumbnail, startDate, endDate));
+
+        Optional<Festival> firstFestival = festivalService.findById(newFestival.getId());
+        assertThat(firstFestival, is(notNullValue()));
+        assertThat(firstFestival.isEmpty(), is(false));
+        logger.info("Festival Info {}", firstFestival);
     }
 }

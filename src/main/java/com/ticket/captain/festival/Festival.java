@@ -21,7 +21,7 @@ public class Festival {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "festival_id")
-    private final Long id;
+    private Long id;
 
     @Column(name = "festival_name")
     private String name;
@@ -42,7 +42,11 @@ public class Festival {
 
     @CreationTimestamp
     @Column(name = "create_date")
-    private final LocalDateTime createDate;
+    private LocalDateTime createDate;
+
+    public Festival() {
+
+    }
 
     public Long getId() {
         return id;
@@ -75,6 +79,7 @@ public class Festival {
     public LocalDateTime getCreateDate() {
         return createDate;
     }
+
 
     public Festival(String name, String content, int winners) {
         this(null, name, null, content, winners, null, null, null);

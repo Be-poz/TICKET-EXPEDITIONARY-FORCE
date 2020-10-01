@@ -1,5 +1,6 @@
 package com.ticket.captain.festival;
 
+import com.ticket.captain.error.NotFoundException;
 import com.ticket.captain.util.ApiResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +19,19 @@ public class FestivalRestController {
 
         return ApiResult.OK(
             new FestivalDto(
-                    festivalService.generate(new Festival(request.getName(), request.getContent(), request.getWinners(),
+                    festivalService.generate(
+                            new Festival(request.getName(), request.getContent(), request.getWinners(),
                             request.getThumbnail(), request.getStartDate(), request.getEndDate())
-            ))
+                    ))
+        );
+    }
+
+    @GetMapping("/manager/{festivalId}/info")
+    public ApiResult<FestivalDto> festivalInfo(@PathVariable Long festivalId) {
+        return ApiResult.OK(
+                festivalService.findById(festivalId)
+                .map(FestivalDto::new)
+                .orElseThrow(() -> new NotFoundException(Festival.class, festivalId))
         );
     }
 

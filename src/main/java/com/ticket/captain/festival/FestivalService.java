@@ -3,11 +3,7 @@ package com.ticket.captain.festival;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Optional;
-
-import static com.ticket.captain.util.DateTimeUtils.dateTimeOf;
 
 @Service
 public class FestivalService {
@@ -23,5 +19,10 @@ public class FestivalService {
         return festivalRepository.save(newFestival);
     }
 
+
+    @Transactional(readOnly = true)
+    public Optional<Festival> findById(Long fastival_id) {
+        return festivalRepository.findById(fastival_id);
+    }
 
 }
